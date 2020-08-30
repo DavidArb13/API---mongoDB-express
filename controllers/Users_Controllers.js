@@ -14,9 +14,9 @@ app.get('/user/:username/:password', (req, res) => {
     let username = req.params.username
     let password = req.params.password
 
-    User.find({ username, password }).exec((err, carVal) => {
-        if (carVal.length) {
-            success('Its True', res, carVal);
+    User.find({ username, password }).exec((err, userVal) => {
+        if (userVal.length) {
+            success('Its True', res, userVal);
         }
         notFound('Its False', res);
     })
@@ -47,9 +47,9 @@ app.post('/user/login', (req, res) => {
     let data = req.body;
     const { username, password } = data;
 
-    User.find({ username, password }).exec((err, carVal) => {
+    User.find({ username, password }).exec((err, userVal) => {
 
-        if (!carVal.length) {
+        if (!userVal.length) {
             return res.json({
                 'success': false,
             })
@@ -97,7 +97,7 @@ app.put('/user/:id', (req, res) => {
     const { username, password, name } = data;
     let actualizar = { username, password, name };
 
-    Car.findByIdAndUpdate(id, actualizar, { new: true, runValidators: true }, (err, userDB) => {
+    User.findByIdAndUpdate(id, actualizar, { new: true, runValidators: true }, (err, userDB) => {
         if (err) {
             errorServer('Has an error', res, err);
         }
