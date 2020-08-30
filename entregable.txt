@@ -1,0 +1,29 @@
+Entregable
+
+Nuestro tercer entregable será, un API con la funcionalidad de un CRUD completo.
+Pueden tomar como ejemplo el CRUD realizado en el entregable número 2. 
+Les recuerdo algunas validaciones de ese entregable:
+
+* Si al buscar un documento, el sistema no lo encuentra, la respuesta debe ser "false" y mostrar un mensaje acorde.
+* Si al listar todos los documentos, el sistema no encuentra nada, la respuesta debe ser "false" y mostrar un mensaje acorde.
+* Al eliminar definitivamente un elemento, enviar un mensaje acorde.
+* Usar un verbo para actualizar la información y otro para cambiar el estado de la tarea.
+
+Nuevas consideraciones a tener en cuenta:
+* El sistema debe estar en ingles
+* El sistema debe tener dos colecciones de Mongo DB, una se llamará "users" con las columnas
+    (username, password, active, created_at) y la otra es de libre elección, puede ser computers, phones, products, etc.
+
+* De la colección libre deben hacer todo el CRUD completo, debe tener por lo menos 6 
+    atributos aparte del ID, active y created_at
+
+* De la colección de "users" se debe tener, como mínimo 2 funciones, una para agregar usuarios y otra para validar, 
+    es decir, un endpoint que reciba username y password, y devuelve una respuesta con true en caso que si exista un 
+    usuario con esos datos, o una respuesta con false en caso que no se encuentre.
+
+* El trabajo debe ser entregado en repositorio.
+
+
+Puntos extra para los equipos que:
+* Usen elementos adicionales, tales como tokens o validaciones en los headers o a través de librerías externas como JWT
+* Publiquen el API en algún servidor y envíen la URL
