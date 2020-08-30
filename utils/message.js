@@ -30,7 +30,23 @@ const exist = (msn, res) => {
     });
 }
 
-module.exports = { errorServer, notFound, Success, troll, exist }
+const updateStatus = (est, id, res, User) => {
+    let data = { active: (est ? false : true) };
+    User.findByIdAndUpdate(id, data, { new: false, runValidators: true }, (err, status) => {
+        if (err) {
+            errorServer('Failed', res, err);
+        }
+        if (!status) {
+            notFound('Id for the update', res);
+        }
+        return Success('The status has been changed', res, status);
+    });
+}
+
+
+
+
+module.exports = { errorServer, notFound, Success, troll, exist, updateStatus }
 
 /***********************
  * Notas
@@ -41,4 +57,5 @@ Line 5:    Mensaje Error Servidor
 line 12:   Mensaje No encontrado
 line 16:   Mensaje Satisfactorio 
 Line 23:   Mensaje Mensaje X
+Line 33:   Mensaje cambio de estado de un usuario
  */

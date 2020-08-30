@@ -1,21 +1,7 @@
 const express = require('express');
 const app = express();
 const User = require("./../models/User");
-const { errorServer, notFound, Success, troll, exist } = require('./../utils/message');
-
-/**********************
- * Funciones:
- **********************/
-const findByUsername = ({ username }) => {
-    User.find({ username }).exec((err, user) => {
-        console.log(user);
-        if (user.length) {
-            return false;
-        } else {
-            return true;
-        }
-    })
-}
+const { errorServer, notFound, Success, troll, exist, updateStatus } = require('./../utils/message');
 
 /**********************
  * Endpoint GET:
@@ -41,20 +27,21 @@ app.get('/user/:username/:password', (req, res) => {
  **********************/
 app.post('/user', (req, res) => {
     let data = req.body;
+    let { username } = data;
+    let user = new User(data);
 
-    if (!findByUsername(data)) {
-        let user = new User(data);
-        user.save((err, UserDb) => {
-            if (err) {
-                errorServer('Has an error')
-            } else {
-                Success('The username has been save', res, UserDb);
-            }
-        })
-    } else {
-        exist('is already exist', res);
-    }
-})
+    User.find({ username }).exec((err, doc) => {
+        if (!doc.length) {
+            user.save((err, UserDb) => {
+                err ?
+                    errorServer('Has an error') :
+                    Success('The username has been save', res, UserDb);
+            });
+        } else {
+            exist('is already exist', res);
+        }
+    });
+});
 
 app.post('/user/login', (req, res) => {
     let data = req.body;
@@ -89,6 +76,17 @@ app.delete('/user/delete/:id', function(req, res) {
     });
 });
 
+app.delete('/user/status/:id', function(req, res) {
+    let id = req.params.id;
+    User.findById(id)
+        .exec((err, stat) => {
+            if (err) {
+                return errorServer('Update status failed', res, err);
+            }
+            (stat.active ? updateStatus(true, id, res, User) : updateStatus(false, id, res, User));
+        });
+});
+
 /**********************
  * Endpoint PUT:
  **********************/
@@ -118,6 +116,7 @@ Line 10:        Probando No tiene utilidad en este caso
 Line 27:        Login por GET no recomendado 
 Line 41:        validacion DE USUARIO NO REPETIDO con POST al agregar usuario NUEVO
 Line 57:        Login por post
+Line 79         Cambio de estado funcion en utils/message.js
 Line 86:        exportando app
 
 */
