@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 let Schema = mongoose.Schema;
 
 let usersSchema = new Schema({
@@ -25,6 +26,8 @@ let usersSchema = new Schema({
         default: true
     }
 })
+
+
 
 module.exports = mongoose.model("users", usersSchema);
 

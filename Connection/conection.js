@@ -5,12 +5,10 @@ const mongoose = require('mongoose')
  ***********************/
 
 mongoose.connect('mongodb://localhost/Daarb_db', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}, (err, res) => {
-    if (err) throw `An error has occurred: ${ err }`;
-    console.log("Connected to Daarb_db");
-});
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }).then(db => console.log('Daarb_db is connected'))
+    .catch(err => console.log(err));
 
 
 

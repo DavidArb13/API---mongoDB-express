@@ -1,17 +1,26 @@
 const express = require('express');
 const app = express();
 const User = require("./../models/User");
-const { errorServer, notFound, Success, troll, exist } = require('./../utils/message')
+const { errorServer, notFound, Success, troll, exist } = require('./../utils/message');
 
 /**********************
  * Funciones:
  **********************/
-
+const findByUsername = ({ username }) => {
+    User.find({ username }).exec((err, user) => {
+        console.log(user);
+        if (user.length) {
+            return false;
+        } else {
+            return true;
+        }
+    })
+}
 
 /**********************
  * Endpoint GET:
  **********************/
-app.get('/', function(req, res) {
+app.get('/dos', function(req, res) {
     troll(res);
 })
 
@@ -30,18 +39,7 @@ app.get('/user/:username/:password', (req, res) => {
 /**********************
  * Endpoint POST:
  **********************/
-const findByUsername = ({ username }) => {
-    User.find({ username }).exec((err, user) => {
-        console.log(user);
-        if (user.length) {
-            return true;
-        } else {
-            return false;
-        }
-    })
-}
-
-app.post('/user', function(req, res) {
+app.post('/user', (req, res) => {
     let data = req.body;
 
     if (!findByUsername(data)) {
@@ -49,8 +47,9 @@ app.post('/user', function(req, res) {
         user.save((err, UserDb) => {
             if (err) {
                 errorServer('Has an error')
+            } else {
+                Success('The username has been save', res, UserDb);
             }
-            Success('The username has been save', res, UserDb);
         })
     } else {
         exist('is already exist', res);
@@ -93,7 +92,7 @@ app.delete('/user/delete/:id', function(req, res) {
 /**********************
  * Endpoint PUT:
  **********************/
-app.put('/car/:id', (req, res) => {
+app.put('/user/:id', (req, res) => {
     let id = req.params.id;
     let data = req.body;
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const Car = require("./../models/Cars");
-const { errorServer, notFound, Success, troll } = require('./../utils/message')
+const { errorServer, notFound, Success, troll } = require('./../utils/message');
 
 
 /**********************
@@ -9,7 +9,7 @@ const { errorServer, notFound, Success, troll } = require('./../utils/message')
  **********************/
 app.get('/', function(req, res) {
     troll(res);
-})
+});
 
 app.get('/car', function(req, res) {
     Car.find({}).exec((err, carList) => {
@@ -20,8 +20,8 @@ app.get('/car', function(req, res) {
             notFound('Searching the cars', res);
         }
         Success('The Cars', res, carList);
-    })
-})
+    });
+});
 
 app.get('/car/:id', function(req, res) {
     let id = req.params.id;
@@ -30,7 +30,7 @@ app.get('/car/:id', function(req, res) {
             errorServer('could not connect', res);
         }
         Success('Congratulations is this ID', res, CarsId);
-    })
+    });
 });
 
 /**********************
@@ -62,8 +62,8 @@ app.put('/car/:id', (req, res) => {
             errorServer('Has an error', res, err);
         }
         Success('The Update is Success', res, carDB);
-    })
-})
+    });
+});
 
 /**********************
  * Endpoint DELETE:
